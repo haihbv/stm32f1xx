@@ -1,0 +1,58 @@
+# Keil uVision files
+*.uvguix
+*.uvguix.*
+*.uvoptx
+*.uvopt
+*.bak
+*.orig
+*.tmp
+
+# Build outputs
+**/Objects/
+**/Listings/
+**/DebugConfig/
+**/RTE/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Keep important files
+!*.pdf
+!*.jpg
+!*.jpeg
+!*.png
+!*.gif
+!*.c
+!*.h
+!*.md
+!*.txt
+!*.docx
+!*.uvprojx
+
+# Ignore specific directories but keep structure
+**/Objects/**
+**/Listings/**
+**/DebugConfig/**
+**/RTE/**
+
+# But keep the folder structure for important project files
+!**/USER/
+!**/src/
+!**/inc/
+!**/MDK/
