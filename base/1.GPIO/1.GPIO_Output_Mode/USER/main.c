@@ -27,12 +27,12 @@ int main(void)
 		GPIO_WriteBit(GPIOC, GPIO_Pin_13, Bit_RESET); // LED ON
 
 		/* Tao tre */
-		delay_ms(100);
+		delay_ms(594); // 1 second
 	
 		GPIO_WriteBit(GPIOC, GPIO_Pin_13, Bit_SET);
 
 		/* Tao tre */
-		delay_ms(100);
+		delay_ms(594); // 1 second
 		
 	}
 }

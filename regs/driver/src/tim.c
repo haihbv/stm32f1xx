@@ -94,7 +94,7 @@ void TIM_SetCompare(volatile TIM_TypeDef *TIMx, uint8_t channel, uint16_t value)
 
 void TIM3_Delay_Init(void)
 {
-	RCC_PeripheralClockCmd(RCC_PERIPH_TIM3, ENABLE);
+	RCC_APB1ClockCmd(RCC_APB1_TIM3, ENABLE);
 	
 	TIM3->ARR = 9999;
 	TIM3->PSC = 72 - 1;
@@ -117,8 +117,8 @@ void delay_us(uint32_t us)
 //}
 void Servo_Init(void)
 {
-	RCC_PeripheralClockCmd(RCC_PERIPH_TIM2, ENABLE);
-	RCC_PeripheralClockCmd(RCC_PERIPH_GPIOA, ENABLE);
+	RCC_APB1ClockCmd(RCC_APB1_TIM2, ENABLE);
+	RCC_APB2ClockCmd(RCC_APB2_GPIOA, ENABLE);
 	
 	GPIO_InitTypeDef gpio;
   gpio.Pin = GPIO_PIN_0;

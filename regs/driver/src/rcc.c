@@ -30,44 +30,25 @@ void RCC_SystemClock_HSE_72MHz(void)
 		;
 }
 
-/**
- * @brief  Enables or disables clock for a given peripheral (GPIO, AFIO, TIMx)
- * @param  periph: Peripheral to control, see @ref RCC_PeriphType
- * @param  enable: 1 to enable, 0 to disable
- * @retval None
- */
-void RCC_PeripheralClockCmd(uint32_t periph_mask, uint8_t enable)
+void RCC_APB1ClockCmd(uint32_t periph_mask, FunctionalState state)
 {
-	if (enable)
+	if (state == ENABLE)
 	{
-		// Enable trên APB2 (GPIO, AFIO, TIM1)
-		uint32_t apb2_mask = periph_mask & 0xFFFF; // Lấy 16 bit thấp
-		if (apb2_mask)
-		{
-			RCC->APB2ENR.REG |= apb2_mask;
-		}
-
-		// Enable trên APB1 (TIM2, TIM3, TIM4)
-		uint32_t apb1_mask = (periph_mask >> 16) & 0xFFFF; // Lấy 16 bit cao, shift về bit thấp
-		if (apb1_mask)
-		{
-			RCC->APB1ENR.REG |= apb1_mask;
-		}
+		RCC->APB1ENR.REG |= periph_mask; 
 	}
 	else
 	{
-		// Disable trên APB2
-		uint32_t apb2_mask = periph_mask & 0xFFFF;
-		if (apb2_mask)
-		{
-			RCC->APB2ENR.REG &= ~apb2_mask;
-		}
-
-		// Disable trên APB1
-		uint32_t apb1_mask = (periph_mask >> 16) & 0xFFFF;
-		if (apb1_mask)
-		{
-			RCC->APB1ENR.REG &= ~apb1_mask;
-		}
+		RCC->APB1ENR.REG &= ~periph_mask;
+	}
+}
+void RCC_APB2ClockCmd(uint32_t periph_mask, FunctionalState state)
+{
+	if (state == ENABLE)
+	{
+		RCC->APB2ENR.REG |= periph_mask; 
+	}
+	else
+	{
+		RCC->APB2ENR.REG &= ~periph_mask;
 	}
 }

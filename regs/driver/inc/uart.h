@@ -2,11 +2,11 @@
 #define UART_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "stm32_util.h"
-
 
 #ifdef __cplusplus
 }

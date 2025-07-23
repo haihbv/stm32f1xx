@@ -3,7 +3,6 @@
 void GPIO_Init(volatile GPIO_TypeDef *GPIOx, GPIO_InitTypeDef *GPIO_InitStruct)
 {
     uint32_t pos, config;
-
     for (pos = 0; pos < 16; pos++)
     {
         if (((uint32_t)GPIO_InitStruct->Pin & (1 << pos)) != 0)
