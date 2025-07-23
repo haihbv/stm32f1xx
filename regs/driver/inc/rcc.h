@@ -280,23 +280,26 @@ typedef union
 	} BITS;
 } FLASH_ACR_t;
 
+
+
+
 typedef struct
 {
-	FLASH_ACR_t ACR;
+	FLASH_ACR_t 	ACR;
 } FLASH_TypeDef;
 
 typedef struct
 {
-	RCC_CR_t CR;
-	RCC_CFGR_t CFGR;
-	RCC_CIR_t CIR;
-	RCC_APB2RSTR_t APB2RSTR;
-	RCC_APB1RSTR_t APB1RSTR;
-	RCC_AHBENR_t AHBENR;
-	RCC_APB2ENR_t APB2ENR;
-	RCC_APB1ENR_t APB1ENR;
-	RCC_BDCR_t BDCR;
-	RCC_CSR_t CSR;
+	RCC_CR_t 		CR;
+	RCC_CFGR_t 		CFGR;
+	RCC_CIR_t 		CIR;
+	RCC_APB2RSTR_t 	APB2RSTR;
+	RCC_APB1RSTR_t 	APB1RSTR;
+	RCC_AHBENR_t 	AHBENR;
+	RCC_APB2ENR_t 	APB2ENR;
+	RCC_APB1ENR_t 	APB1ENR;
+	RCC_BDCR_t 		BDCR;
+	RCC_CSR_t 		CSR;
 } RCC_TypeDef;
 
 
@@ -322,12 +325,11 @@ typedef struct
 #define RCC_APB1_I2C2 		((uint32_t)0x00400000)
 #define RCC_APB1_USB 		((uint32_t)0x00800000)
 #define RCC_APB1_CAN1 		((uint32_t)0x02000000)
-#define RCC_APB1_CAN2 		((uint32_t)0x04000000)
 #define RCC_APB1_BKP 		((uint32_t)0x08000000)
 #define RCC_APB1_PWR 		((uint32_t)0x10000000)
 
 
-void RCC_SystemClock_HSE_72MHz(void);
+void RCC_Clock72MHz_HSE(void);
 void RCC_APB2ClockCmd(uint32_t periph_mask, FunctionalState state);
 void RCC_APB1ClockCmd(uint32_t periph_mask, FunctionalState state);
 

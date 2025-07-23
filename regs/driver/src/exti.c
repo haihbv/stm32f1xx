@@ -5,8 +5,6 @@ void EXTI0_IRQHandler(void)
     if (EXTI->PR.BITS.BIT0 != 0)
     {
         EXTI->PR.ALL = (uint32_t)(1 << 0);
-        /* Logic */
-        GPIO_TogglePin(GPIOC, GPIO_PIN_13);
     }
 }
 

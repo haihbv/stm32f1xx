@@ -1,20 +1,3 @@
-/**
-  ******************************************************************************
-  * @file    exti.h
-  * @author  STM32 Register Driver
-  * @version V1.0.0
-  * @date    21-July-2025
-  * @brief   This file contains all the functions prototypes for the EXTI firmware 
-  *          library.
-  ******************************************************************************
-  * @attention
-  *
-  * This module provides low-level access to STM32F1xx EXTI (External Interrupt/Event)
-  * controller and NVIC (Nested Vector Interrupt Controller) using register-based
-  * structures for efficient interrupt management.
-  *
-  ******************************************************************************
-  */
 
 #ifndef EXTI_H
 #define EXTI_H
@@ -28,77 +11,50 @@ extern "C"
 #include "afio.h"
 #include "gpio.h"
 
-/** @addtogroup STM32F1xx_Register_Driver
-  * @{
-  */
-
-/** @addtogroup EXTI
-  * @{
-  */ 
-
-/** @defgroup EXTI_Exported_Constants
-  * @{
-  */
-
-/** @defgroup EXTI_Mode_definitions
-  * @{
-  */
 #define EXTI_MODE_RISING    0x01 /*!< Rising edge trigger selection */
 #define EXTI_MODE_FALLING   0x02 /*!< Falling edge trigger selection */
 #define EXTI_MODE_BOTH      (EXTI_MODE_RISING | EXTI_MODE_FALLING) /*!< Rising and Falling edge trigger selection */
 
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */
-
-/** @defgroup EXTI_Exported_Types
-  * @{
-  */
-
-
-  typedef union
+typedef union
   {
-    __IO uint32_t ALL;
-    struct
-    {
-      __IO uint32_t BIT0 : 1;
-      __IO uint32_t BIT1 : 1;
-      __IO uint32_t BIT2 : 1;
-      __IO uint32_t BIT3 : 1;
-      __IO uint32_t BIT4 : 1;
-      __IO uint32_t BIT5 : 1;
-      __IO uint32_t BIT6 : 1;
-      __IO uint32_t BIT7 : 1;
-      __IO uint32_t BIT8 : 1;
-      __IO uint32_t BIT9 : 1;
-      __IO uint32_t BIT10 : 1;
-      __IO uint32_t BIT11 : 1;
-      __IO uint32_t BIT12 : 1;
-      __IO uint32_t BIT13 : 1;
-      __IO uint32_t BIT14 : 1;
-      __IO uint32_t BIT15 : 1;
-      __IO uint32_t BIT16 : 1;
-      __IO uint32_t BIT17 : 1;
-      __IO uint32_t BIT18 : 1;
-      __IO uint32_t BIT19 : 1;
-      __IO uint32_t BIT20 : 1;
-      __IO uint32_t BIT21 : 1;
-      __IO uint32_t BIT22 : 1;
-      __IO uint32_t BIT23 : 1;
-      __IO uint32_t BIT24 : 1;
-      __IO uint32_t BIT25 : 1;
-      __IO uint32_t BIT26 : 1;
-      __IO uint32_t BIT27 : 1;
-      __IO uint32_t BIT28 : 1;
-      __IO uint32_t BIT29 : 1;
-      __IO uint32_t BIT30 : 1;
-      __IO uint32_t BIT31 : 1;
-    } BITS;
-  } __32bit;
+  __IO uint32_t ALL;
+  struct
+  {
+    __IO uint32_t BIT0  : 1;
+    __IO uint32_t BIT1  : 1;
+    __IO uint32_t BIT2  : 1;
+    __IO uint32_t BIT3  : 1;
+    __IO uint32_t BIT4  : 1;
+    __IO uint32_t BIT5  : 1;
+    __IO uint32_t BIT6  : 1;
+    __IO uint32_t BIT7  : 1;
+    __IO uint32_t BIT8  : 1;
+    __IO uint32_t BIT9  : 1;
+    __IO uint32_t BIT10 : 1;
+    __IO uint32_t BIT11 : 1;
+    __IO uint32_t BIT12 : 1;
+    __IO uint32_t BIT13 : 1;
+    __IO uint32_t BIT14 : 1;
+    __IO uint32_t BIT15 : 1;
+    __IO uint32_t BIT16 : 1;
+    __IO uint32_t BIT17 : 1;
+    __IO uint32_t BIT18 : 1;
+    __IO uint32_t BIT19 : 1;
+    __IO uint32_t BIT20 : 1;
+    __IO uint32_t BIT21 : 1;
+    __IO uint32_t BIT22 : 1;
+    __IO uint32_t BIT23 : 1;
+    __IO uint32_t BIT24 : 1;
+    __IO uint32_t BIT25 : 1;
+    __IO uint32_t BIT26 : 1;
+    __IO uint32_t BIT27 : 1;
+    __IO uint32_t BIT28 : 1;
+    __IO uint32_t BIT29 : 1;
+    __IO uint32_t BIT30 : 1;
+    __IO uint32_t BIT31 : 1;
+  } BITS;
+} __32bit;
 	
 /**
   * @brief  Nested Vector Interrupt Controller (NVIC) register structure definition
@@ -230,18 +186,6 @@ int8_t get_exti_line(volatile GPIO_TypeDef *GPIOx);
   *         EXTI_Init(GPIOA, GPIO_PIN_0, EXTI_MODE_RISING);
   */
 void EXTI_Init(volatile GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t mode);
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 #ifdef __cplusplus
 }
