@@ -8,48 +8,6 @@ extern "C"
 
 #include "stm32_util.h"
 
-
-typedef struct
-{
-	RCC_CR_t CR;
-	RCC_CFGR_t CFGR;
-	RCC_CIR_t CIR;
-	RCC_APB2RSTR_t APB2RSTR;
-	RCC_APB1RSTR_t APB1RSTR;
-	RCC_AHBENR_t AHBENR;
-	RCC_APB2ENR_t APB2ENR;
-	RCC_APB1ENR_t APB1ENR;
-	RCC_BDCR_t BDCR;
-	RCC_CSR_t CSR;
-} RCC_TypeDef;
-
-
-#define RCC_APB2_AFIO 		((uint32_t)0x00000001)
-#define RCC_APB2_GPIOA 		((uint32_t)0x00000004)
-#define RCC_APB2_GPIOB 		((uint32_t)0x00000008)
-#define RCC_APB2_GPIOC 		((uint32_t)0x00000010)
-#define RCC_APB2_ADC1 		((uint32_t)0x00000200)
-#define RCC_APB2_ADC2 		((uint32_t)0x00000400)
-#define RCC_APB2_TIM1 		((uint32_t)0x00000800)
-#define RCC_APB2_SPI1 		((uint32_t)0x00001000)
-#define RCC_APB2_USART1 	((uint32_t)0x00004000)
-
-#define RCC_APB1_TIM2 		((uint32_t)0x00000001)
-#define RCC_APB1_TIM3 		((uint32_t)0x00000002)
-#define RCC_APB1_TIM4 		((uint32_t)0x00000004)
-#define RCC_APB1_WWDG 		((uint32_t)0x00000800)
-#define RCC_APB1_SPI2 		((uint32_t)0x00004000)
-#define RCC_APB1_SPI3 		((uint32_t)0x00008000)
-#define RCC_APB1_USART2 	((uint32_t)0x00020000)
-#define RCC_APB1_USART3 	((uint32_t)0x00040000)
-#define RCC_APB1_I2C1 		((uint32_t)0x00200000)
-#define RCC_APB1_I2C2 		((uint32_t)0x00400000)
-#define RCC_APB1_USB 		((uint32_t)0x00800000)
-#define RCC_APB1_CAN1 		((uint32_t)0x02000000)
-#define RCC_APB1_CAN2 		((uint32_t)0x04000000)
-#define RCC_APB1_BKP 		((uint32_t)0x08000000)
-#define RCC_APB1_PWR 		((uint32_t)0x10000000)
-
 typedef union
 {
 	__IO uint32_t REG;
@@ -326,6 +284,48 @@ typedef struct
 {
 	FLASH_ACR_t ACR;
 } FLASH_TypeDef;
+
+typedef struct
+{
+	RCC_CR_t CR;
+	RCC_CFGR_t CFGR;
+	RCC_CIR_t CIR;
+	RCC_APB2RSTR_t APB2RSTR;
+	RCC_APB1RSTR_t APB1RSTR;
+	RCC_AHBENR_t AHBENR;
+	RCC_APB2ENR_t APB2ENR;
+	RCC_APB1ENR_t APB1ENR;
+	RCC_BDCR_t BDCR;
+	RCC_CSR_t CSR;
+} RCC_TypeDef;
+
+
+#define RCC_APB2_AFIO 		((uint32_t)0x00000001)
+#define RCC_APB2_GPIOA 		((uint32_t)0x00000004)
+#define RCC_APB2_GPIOB 		((uint32_t)0x00000008)
+#define RCC_APB2_GPIOC 		((uint32_t)0x00000010)
+#define RCC_APB2_ADC1 		((uint32_t)0x00000200)
+#define RCC_APB2_ADC2 		((uint32_t)0x00000400)
+#define RCC_APB2_TIM1 		((uint32_t)0x00000800)
+#define RCC_APB2_SPI1 		((uint32_t)0x00001000)
+#define RCC_APB2_USART1 	((uint32_t)0x00004000)
+
+#define RCC_APB1_TIM2 		((uint32_t)0x00000001)
+#define RCC_APB1_TIM3 		((uint32_t)0x00000002)
+#define RCC_APB1_TIM4 		((uint32_t)0x00000004)
+#define RCC_APB1_WWDG 		((uint32_t)0x00000800)
+#define RCC_APB1_SPI2 		((uint32_t)0x00004000)
+#define RCC_APB1_SPI3 		((uint32_t)0x00008000)
+#define RCC_APB1_USART2 	((uint32_t)0x00020000)
+#define RCC_APB1_USART3 	((uint32_t)0x00040000)
+#define RCC_APB1_I2C1 		((uint32_t)0x00200000)
+#define RCC_APB1_I2C2 		((uint32_t)0x00400000)
+#define RCC_APB1_USB 		((uint32_t)0x00800000)
+#define RCC_APB1_CAN1 		((uint32_t)0x02000000)
+#define RCC_APB1_CAN2 		((uint32_t)0x04000000)
+#define RCC_APB1_BKP 		((uint32_t)0x08000000)
+#define RCC_APB1_PWR 		((uint32_t)0x10000000)
+
 
 void RCC_SystemClock_HSE_72MHz(void);
 void RCC_APB2ClockCmd(uint32_t periph_mask, FunctionalState state);
