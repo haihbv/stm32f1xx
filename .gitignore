@@ -51,6 +51,9 @@ Thumbs.db
 **/DebugConfig/**
 **/RTE/**
 
+# Ignore specific files
+regs/document.md
+
 # But keep the folder structure for important project files
 !**/USER/
 !**/src/
