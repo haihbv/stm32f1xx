@@ -201,7 +201,6 @@ int8_t get_exti_line(volatile GPIO_TypeDef *GPIOx);
   *         EXTI_Init(GPIOA, GPIO_PIN_0, EXTI_MODE_RISING);
   */
 void EXTI_Init(volatile GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t mode);
-
 void NVIC_EnableIRQ(IRQn_Type IRQn);
 #ifdef __cplusplus
 }
