@@ -9,7 +9,6 @@ int main()
 
 	while (1)
 	{
-		USART1_SendString("Hello, STM32!\n");
 		delay_ms(1000);
 	}
 }
