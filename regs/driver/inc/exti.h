@@ -65,17 +65,23 @@ typedef union
 typedef struct
 {
 	__IO uint32_t ISER[8];  /*!< Interrupt Set Enable Registers,           Address offset: 0x00-0x1C */
-	uint32_t      RESERVED0[24];                                  
+	uint32_t      RESERVED0[24];
+
 	__IO uint32_t ICER[8];  /*!< Interrupt Clear Enable Registers,         Address offset: 0x80-0x9C */
-	uint32_t      RESERVED1[24];                                  
+	uint32_t      RESERVED1[24];
+
 	__IO uint32_t ISPR[8];  /*!< Interrupt Set Pending Registers,          Address offset: 0x100-0x11C */
-	uint32_t      RESERVED2[24];                                  
+	uint32_t      RESERVED2[24];
+
 	__IO uint32_t ICPR[8];  /*!< Interrupt Clear Pending Registers,        Address offset: 0x180-0x19C */
-	uint32_t      RESERVED3[24];                                  
+	uint32_t      RESERVED3[24];
+
 	__IO uint32_t IABR[8];  /*!< Interrupt Active bit Registers,           Address offset: 0x200-0x21C */
-	uint32_t      RESERVED4[56];                                  
+	uint32_t      RESERVED4[56];
+                                   
 	__IO uint8_t  IPR[240]; /*!< Interrupt Priority Registers,             Address offset: 0x300-0x3EF */
-	uint32_t      RESERVED5[644];                                 
+	uint32_t      RESERVED5[644];
+                                   
 	__O  uint32_t STIR;     /*!< Software Trigger Interrupt Register,      Address offset: 0xE00 */
 } NVIC_TypeDef;
 
@@ -115,22 +121,31 @@ typedef enum IRQn
 	SysTick_IRQn                = -1,     /*!< 15 Cortex-M3 System Tick Interrupt                  */
 
 	/******  STM32 specific Interrupt Numbers *********************************************************/
-	EXTI0_IRQn                  = 6,      /*!< EXTI Line0 Interrupt                                 */
-	EXTI1_IRQn                  = 7,      /*!< EXTI Line1 Interrupt                                 */
-	EXTI2_IRQn                  = 8,      /*!< EXTI Line2 Interrupt                                 */
-	EXTI3_IRQn                  = 9,      /*!< EXTI Line3 Interrupt                                 */
-	EXTI4_IRQn                  = 10,     /*!< EXTI Line4 Interrupt                                 */
-	EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                       */
-	EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                     */
+  WWDG_IRQn                   = 0,      /*!< Window WatchDog Interrupt                              */
+  PVD_IRQn                    = 1,      /*!< PVD through EXTI Line detection Interrupt              */
+  TAMPER_IRQn                 = 2,      /*!< Tamper Interrupt                                       */
+  RTC_IRQn                    = 3,      /*!< RTC global Interrupt                                   */
+  FLASH_IRQn                  = 4,      /*!< FLASH global Interrupt                                 */
+  RCC_IRQn                    = 5,      /*!< RCC global Interrupt                                   */
+  EXTI0_IRQn                  = 6,      /*!< EXTI Line0 Interrupt                                   */
+	EXTI1_IRQn                  = 7,      /*!< EXTI Line1 Interrupt                                   */
+	EXTI2_IRQn                  = 8,      /*!< EXTI Line2 Interrupt                                   */
+	EXTI3_IRQn                  = 9,      /*!< EXTI Line3 Interrupt                                   */
+	EXTI4_IRQn                  = 10,     /*!< EXTI Line4 Interrupt                                   */
+	DMA_Channel1_IRQn           = 11,     /*!< DMA Channel 0 global Interrupt                         */
+  DMA_Channel2_IRQn           = 12,     /*!< DMA Channel 1 global Interrupt                         */
+  DMA_Channel3_IRQn           = 13,     /*!< DMA Channel 2 global Interrupt                         */
+  DMA_Channel4_IRQn           = 14,     /*!< DMA Channel 3 global Interrupt                         */
+  DMA_Channel5_IRQn           = 15,     /*!< DMA Channel 4 global Interrupt                         */
+  DMA_Channel6_IRQn           = 16,     /*!< DMA Channel 5 global Interrupt                         */
+  DMA_Channel7_IRQn           = 17,     /*!< DMA Channel 6 global Interrupt                         */
+  ADC1_2_IRQn                 = 18,     /*!< ADC1 and ADC2 global Interrupt                         */ 
+  EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                          */
+  USART1_IRQn                 = 37,     /*!< USART1 global Interrupt                                */
+  USART2_IRQn                 = 38,     /*!< USART2 global Interrupt                                */
+  USART3_IRQn                 = 39,     /*!< USART3 global Interrupt                                */ 
+	EXTI15_10_IRQn              = 40,     /*!< External Line[15:10] Interrupts                        */
 } IRQn_Type;
-
-/**
-  * @}
-  */
-
-/** @defgroup EXTI_Exported_Functions
-  * @{
-  */
 
 /**
   * @brief  EXTI Line0 Interrupt Handler
@@ -192,3 +207,6 @@ void EXTI_Init(volatile GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin, uint8_t mode);
 #endif
 
 #endif /* EXTI_H */
+// EXTI_H --- IGNORE ---
+
+

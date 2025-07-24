@@ -1,5 +1,4 @@
 #include "uart.h"
-#include "gpio.h"
 
 void USART1_Init(void)
 {
@@ -17,6 +16,10 @@ void USART1_Init(void)
     SET_BIT(USART1->CR1, 1 << 13); // UE: USART Enable
     SET_BIT(USART1->CR1, 1 << 3);  // TE: Transmitter Enable
     SET_BIT(USART1->CR1, 1 << 2);  // RE: Receiver Enable
+    SET_BIT(USART1->CR1, 1 << 5);  // RXNEIE: Receive Not Empty Interrupt Enable
+
+    
+    
 }
 void USART1_SendChar(char c)
 {

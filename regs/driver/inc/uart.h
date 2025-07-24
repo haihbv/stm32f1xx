@@ -7,6 +7,8 @@ extern "C"
 #endif
 
 #include "stm32_util.h"
+#include "gpio.h"
+#include "exti.h"
 
 typedef struct
 {
