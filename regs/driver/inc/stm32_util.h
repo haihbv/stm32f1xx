@@ -46,11 +46,6 @@ typedef enum
 #define GPIOA_BASE 			(0x40010800UL)
 #define GPIOB_BASE 			(0x40010C00UL)
 #define GPIOC_BASE 			(0x40011000UL)
-#define GPIOD_BASE 			(0x40011400UL)
-#define GPIOE_BASE 			(0x40011800UL)
-#define GPIOF_BASE 			(0x40011C00UL)
-#define GPIOG_BASE 			(0x40012000UL)
-
 #define RCC_BASE    		(0x40021000UL)
 #define FLASH_BASE 			(0x40022000UL)
 #define AFIO_BASE 			(0x40010000UL)
@@ -80,7 +75,9 @@ typedef enum
 #define TIM4 				((__IO TIM_TypeDef *)TIM4_Base)
 #define ADC1 	 			((__IO ADC_TypeDef *)ADC1_Base)
 #define ADC2 	 			((__IO ADC_TypeDef *)ADC2_Base)
-
+#define USART1              ((__IO USART_TypeDef *)USART1_Base)
+#define USART2              ((__IO USART_TypeDef *)USART2_Base)
+#define USART3              ((__IO USART_TypeDef *)USART3_Base)
 
 #ifdef __cplusplus
 }

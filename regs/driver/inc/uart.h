@@ -20,6 +20,10 @@ typedef struct
 } USART_TypeDef;
 
 
+void USART1_Init(void);
+void USART1_SendChar(char c);
+void USART1_SendString(const char *str);
+void USART1_IRQHandler(void);
 
 #ifdef __cplusplus
 }

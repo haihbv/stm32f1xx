@@ -1,29 +1,17 @@
-#include "rcc.h"
-#include "gpio.h"
-#include "systick.h"
-
-void GPIO_Config(void);
+#include "main.h"
 
 int main()
 {
+	RCC_Clock72MHz_HSE();
 	SysTick_Init(72000);
-	GPIO_Config();
+	RCC_APB2ClockCmd(RCC_APB2_GPIOA | RCC_APB2_USART1, ENABLE);
+	USART1_Init();
 
 	while (1)
 	{
-		GPIO_WritePin(GPIOC, GPIO_PIN_13, BIT_RESET);
-		delay_ms(1000);
-		GPIO_WritePin(GPIOC, GPIO_PIN_13, BIT_SET);
+		USART1_SendString("Hello, STM32!\n");
 		delay_ms(1000);
 	}
 }
 
-void GPIO_Config(void)
-{
-	RCC_APB2ClockCmd(RCC_APB2_GPIOC, ENABLE);
-	GPIO_InitTypeDef GPIO_InitStruct;
-	GPIO_InitStruct.Pin = GPIO_PIN_13;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Speed = GPIO_SPEED_50MHZ;
-	GPIO_Init(GPIOC, &GPIO_InitStruct);
-}
+
