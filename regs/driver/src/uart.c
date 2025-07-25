@@ -1,5 +1,13 @@
 #include "uart.h"
 
+uint16_t USART_GetBaudRate(uint32_t baudrate)
+{
+    uint32_t usartdiv = (((uint32_t)72000000U) / (16U * (uint32_t)baudrate)) * 100U;
+    uint16_t mantissa = (uint16_t)(usartdiv / 100U);
+    uint16_t fraction = (uint16_t)((((usartdiv - (mantissa * 100U)) * 16U) + 50U) / 100U);
+    return (uint16_t)((mantissa << 4) | (fraction & 0x0F));
+}
+
 void USART1_Init(void)
 {
     GPIO_InitTypeDef gpio;
@@ -12,13 +20,14 @@ void USART1_Init(void)
     gpio.Mode = GPIO_MODE_INPUT;
     GPIO_Init(GPIOA, &gpio);
 
-    USART1->BRR = 0x1D4C;
+    // USART1->BRR = 0x1D4C;
+    USART1->BRR = USART_GetBaudRate(USART_BRR_115200);
     SET_BIT(USART1->CR1, 1 << 13); // UE
     SET_BIT(USART1->CR1, 1 << 3);  // TE
     SET_BIT(USART1->CR1, 1 << 2);  // RE
     SET_BIT(USART1->CR1, 1 << 5);  // RXNEIE
-		NVIC_EnableIRQ(USART1_IRQn);
-    //NVIC->ISER[1] |= (1 << (37 - 32));
+    NVIC_EnableIRQ(USART1_IRQn);
+    // NVIC->ISER[1] |= (1 << (37 - 32));
 }
 void USART1_SendChar(char c)
 {

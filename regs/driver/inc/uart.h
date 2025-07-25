@@ -21,7 +21,14 @@ typedef struct
     __IO uint32_t GTPR;
 } USART_TypeDef;
 
+// USART baud rate definitions
 
+#define USART_BRR_9600      9600U
+#define USART_BRR_19200     19200U
+#define USART_BRR_57600     57600U
+#define USART_BRR_115200    115200U
+
+uint16_t USART_GetBaudRate(uint32_t baudrate);
 void USART1_Init(void);
 void USART1_SendChar(char c);
 void USART1_SendString(const char *str);
