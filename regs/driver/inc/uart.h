@@ -53,14 +53,13 @@ typedef struct
     __IO uint32_t GTPR;
 } USART_TypeDef;
 
-typedef struct
+typedef struct __attribute__((packed))
 {
     __IO USART_TypeDef *USARTx; 
     uint32_t BaudRate;
     uint32_t WordLength; 
     uint32_t StopBits;
 	FunctionalState IRQ_Enable;
-	uint32_t :24;
 } USART_HandleTypeDef;
 
 uint16_t USART_GetBaudRate(uint32_t pclk, uint32_t baudrate);

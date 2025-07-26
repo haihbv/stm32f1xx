@@ -1,12 +1,3 @@
-# Keil uVision files
-*.uvguix
-*.uvguix.*
-*.uvoptx
-*.uvopt
-*.bak
-*.orig
-*.tmp
-
 # Build outputs
 **/Objects/
 **/Listings/
