@@ -50,5 +50,7 @@ regs/document.md
 !**/src/
 !**/inc/
 !**/MDK/
-[image/
+
+# Ignore image folders
+image/
 images/
