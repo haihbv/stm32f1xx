@@ -1,56 +1,37 @@
 #include "systick.h"
 
-/* Global millisecond counter */
 static volatile uint32_t systick_ms = 0;
 
-/**
- * @brief  Initializes the SysTick timer to generate interrupt every `ticks_ms` ticks.
- * @param  ticks_ms: Reload value. Assuming AHB = 72 MHz, for 1ms tick use 72000.
- * @retval None
- */
-void SysTick_Init(uint32_t ticks_ms)
+#define SYSTICK_LOAD_72Mhz      (72000U)        // For 1ms tick at 72MHz
+#define SYSTICK_LOAD_36MHz      (36000U)        // For 1ms tick at 36MHz
+#define SYSTICK_LOAD_16MHz      (16000U)        // For 1ms tick at 16MHz
+#define SYSTICK_LOAD_8MHz       (8000U)         // For 1ms tick at 8MHz
+
+#define SYS_CTRL_EN             (1U << 0)       /*!< Counter enable */
+#define SYS_CTRL_TICKINT        (1U << 1)       /*!< Enable SysTick exception request */
+#define SYS_CTRL_CLKSRC         (1U << 2)       /*!< Clock source: 0 = external, 1 = processor clock (AHB) */
+#define SYS_CTRL_CNTFLAG        (1U << 16)      /*!< Returns 1 if timer counted to 0 since last read */
+#define SYS_CTRL_ENABLE_MASK    (SYS_CTRL_EN | SYS_CTRL_TICKINT | SYS_CTRL_CLKSRC)
+
+void SysTick_Init()
 {
-  /* Disable SysTick during configuration */
-  SYSTICK_CTRL = 0;
-
-  /* Set reload register */
-  SYSTICK_LOAD = ticks_ms - 1;
-
-  /* Reset current value register */
-  SYSTICK_VAL = 0;
-
-  /* Enable SysTick, enable interrupt, select processor clock */
-  SYSTICK_CTRL |= SYS_CTRL_EN | SYS_CTRL_TICKINT | SYS_CTRL_CLKSRC;
-  // SYSTICK_CTRL |= 0x07; // Also valid, but less clear than using named macros
+    SYSTICK_CTRL  = 0;                      		// Disable SysTick
+    SYSTICK_LOAD  = SYSTICK_LOAD_72Mhz - 1; 		// Load value for 1ms tick at 72MHz
+    SYSTICK_VAL   = 0;                      		// Clear current value
+    SYSTICK_CTRL |= SYS_CTRL_ENABLE_MASK;   		// Enable SysTick with interrupts
 }
 
-/**
- * @brief  SysTick interrupt handler. Called every 1ms (if configured properly).
- * @note   Toggles PC13 every 500ms as heartbeat blink.
- * @retval None
- */
 void SysTick_Handler(void)
 {
-  systick_ms++;
+    systick_ms++;
 }
 
-/**
- * @brief  Returns number of milliseconds since system start.
- * @retval Milliseconds since SysTick_Init()
- */
-uint32_t millis(void)
+uint32_t millis(void)               
 {
-  return systick_ms;
+    return systick_ms;
 }
-
-/**
- * @brief  Blocking delay for a specified number of milliseconds.
- * @param  ms: Duration in milliseconds
- * @retval None
- */
 void delay_ms(uint32_t ms)
 {
-  uint32_t start = millis();
-  while ((millis() - start) < ms)
-    ;
+    uint32_t start = millis();
+    while ((millis() - start) < ms);
 }
