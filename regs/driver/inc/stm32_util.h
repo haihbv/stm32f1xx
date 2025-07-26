@@ -14,9 +14,9 @@ extern "C"
 #define __IO volatile
 
 
-#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
-#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-#define READ_BIT(REG, BIT)    ((REG) & (BIT))
+#define SET_BIT(REG, BIT)    ((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT)  ((REG) &= ~(BIT))
+#define READ_BIT(REG, BIT)   ((REG) & (BIT))
 
 typedef enum
 {

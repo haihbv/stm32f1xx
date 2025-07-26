@@ -1,21 +1,5 @@
 #include "uart.h"
 
-#define USART_CR1_UE                (1U << 13) // USART Enable
-#define USART_CR1_TE                (1U << 3)  // Transmitter Enable
-#define USART_CR1_RE                (1U << 2)  // Receiver Enable
-#define USART_CR1_RXNEIE            (1U << 5)  // RXNE Interrupt Enable
-
-#define USART_CR1_ENABLE_MASK       (USART_CR1_UE | USART_CR1_TE | USART_CR1_RE)
-#define USART_CR1_IRQ_MASK          (USART_CR1_RXNEIE)
-
-#define USART_SR_TXE                (1U << 7)  // Transmit Data Register Empty
-#define USART_SR_RXNE               (1U << 5)  // Read Data Register Not Empty
-
-#define USART_CLK_FRE_72Mhz       (72000000U) // Clock frequency for USART at 72MHz
-#define USART_CLK_FRE_36Mhz       (36000000U) // Clock frequency for USART at 36MHz
-#define USART_CLK_FRE_16Mhz       (16000000U) // Clock frequency for USART at 16MHz
-#define USART_CLK_FRE_8Mhz        (8000000U)  // Clock frequency for USART at 8MHz
-
 uint16_t USART_GetBaudRate(uint32_t pclk, uint32_t baudrate)
 {
     uint32_t usartdiv = ((pclk) / (16U * (uint32_t)baudrate)) * 100U;
@@ -23,49 +7,141 @@ uint16_t USART_GetBaudRate(uint32_t pclk, uint32_t baudrate)
     uint16_t fraction = (uint16_t)((((usartdiv - (mantissa * 100U)) * 16U) + 50U) / 100U);
     return (uint16_t)((mantissa << 4) | (fraction & 0x0F));
 }
-
-void USART1_Init(void)
+static void USART_GPIO_Config(__IO USART_TypeDef *USARTx)
 {
-    RCC_APB2ClockCmd(RCC_APB2_GPIOA | RCC_APB2_USART1, ENABLE);
+    GPIO_InitTypeDef GPIO_InitStruct;
 
-    GPIO_InitTypeDef gpio;
-    gpio.Mode = GPIO_MODE_AF_PP;
-    gpio.Pin = GPIO_PIN_9;
-    gpio.Speed = GPIO_SPEED_50MHZ;
-    GPIO_Init(GPIOA, &gpio);
+    if (USARTx == USART1)
+    {
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pin = GPIO_PIN_9;
+        GPIO_InitStruct.Speed = GPIO_SPEED_50MHZ;
+        GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    gpio.Pin = GPIO_PIN_10;
-    gpio.Mode = GPIO_MODE_INPUT;
-    GPIO_Init(GPIOA, &gpio);
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pin = GPIO_PIN_10;
+        GPIO_Init(GPIOA, &GPIO_InitStruct);
+    }
+    else if (USARTx == USART2)
+    {
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pin = GPIO_PIN_2;
+        GPIO_InitStruct.Speed = GPIO_SPEED_50MHZ;
+        GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    // USART1->BRR = 0x1D4C;
-    USART1->BRR = USART_GetBaudRate(USART_CLK_FRE_72Mhz ,USART_BRR_9600);
-    USART1->CR1 = 0; // Reset CR1
-    SET_BIT(USART1->CR1, USART_CR1_ENABLE_MASK);    // Enable USART
-    SET_BIT(USART1->CR1, USART_CR1_IRQ_MASK);       // Enable RXNE Interrupt
-    NVIC_EnableIRQ(USART1_IRQn);
-    // NVIC->ISER[1] |= (1 << (37 - 32));
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pin = GPIO_PIN_3;
+        GPIO_Init(GPIOA, &GPIO_InitStruct);
+    }
+    else if (USARTx == USART3)
+    {
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pin = GPIO_PIN_10;
+        GPIO_InitStruct.Speed = GPIO_SPEED_50MHZ;
+        GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+        GPIO_InitStruct.Pin = GPIO_PIN_11;
+        GPIO_Init(GPIOB, &GPIO_InitStruct);
+    }
 }
-void USART1_SendChar(char c)
+void USART_Init(USART_HandleTypeDef *huart)
 {
-    while (!(READ_BIT(USART1->SR, USART_SR_TXE)))
+    if (huart->USARTx == USART1)
+    {
+        RCC_APB2ClockCmd(RCC_APB2_GPIOA | RCC_APB2_USART1, ENABLE);
+    }
+    else if (huart->USARTx == USART2)
+    {
+        RCC_APB1ClockCmd(RCC_APB1_USART2, ENABLE);
+        RCC_APB2ClockCmd(RCC_APB2_GPIOA, ENABLE);
+    }
+    else if (huart->USARTx == USART3)
+    {
+        RCC_APB1ClockCmd(RCC_APB1_USART3, ENABLE);
+        RCC_APB2ClockCmd(RCC_APB2_GPIOB, ENABLE);
+    }
+
+    USART_GPIO_Config(huart->USARTx);
+
+    if (huart->USARTx == USART1)
+    {
+        huart->USARTx->BRR = USART_GetBaudRate(USART_CLK_FRE_72Mhz, huart->BaudRate);
+    }
+    else
+    {
+        huart->USARTx->BRR = USART_GetBaudRate(USART_CLK_FRE_36Mhz, huart->BaudRate);
+    }
+
+    SET_BIT(huart->USARTx->CR1, USART_CR1_ENABLE_MASK);
+    CLEAR_BIT(huart->USARTx->CR1, USART_CR1_PCE | USART_CR1_M); 
+		
+    if (huart->StopBits == USART_CR2_STOP_1)
+    {
+        huart->USARTx->CR2 &= ~USART_CR2_STOP_2; 
+    }
+    else if (huart->StopBits == USART_CR2_STOP_2)
+    {
+        huart->USARTx->CR2 |= USART_CR2_STOP_2; 
+    }
+    if (huart->IRQ_Enable == ENABLE)
+    {
+        SET_BIT(huart->USARTx->CR1, USART_CR1_IRQ_MASK);
+        if (huart->USARTx == USART1)
+        {
+            NVIC_EnableIRQ(USART1_IRQn);
+        }
+        else if (huart->USARTx == USART2)
+        {
+            NVIC_EnableIRQ(USART2_IRQn);
+        }
+        else if (huart->USARTx == USART3)
+        {
+            NVIC_EnableIRQ(USART3_IRQn);
+        }
+    }
+}
+void USART_SendChar(__IO USART_TypeDef *USARTx, char c)
+{
+    while (!(READ_BIT(USARTx->SR, USART_SR_TXE)))
         ; // Wait until TXE is set
 
-    USART1->DR = c;
+    USARTx->DR = c;
 }
-void USART1_SendString(const char *str)
+void USART_SendString(__IO USART_TypeDef *USARTx, const char *str)
 {
     while (*str)
     {
-        USART1_SendChar(*str++);
+        USART_SendChar(USARTx, *str++);
     }
 }
+
 void USART1_IRQHandler(void)
 {
     if (READ_BIT(USART1->SR, USART_SR_RXNE))
     {
         // doing something
         char reverseChar = (char)(USART1->DR & 0xFF);
-        USART1_SendChar(reverseChar);
+        USART_SendChar(USART1, reverseChar);
+    }
+}
+
+void USART2_IRQHandler(void)
+{
+    if (READ_BIT(USART2->SR, USART_SR_RXNE))
+    {
+        // doing something
+        char reverseChar = (char)(USART2->DR & 0xFF);
+        USART_SendChar(USART2, reverseChar);
+    }
+}
+
+void USART3_IRQHandler(void)
+{
+    if (READ_BIT(USART3->SR, USART_SR_RXNE))
+    {
+        // doing something
+        char reverseChar = (char)(USART3->DR & 0xFF);
+        USART_SendChar(USART3, reverseChar);
     }
 }
